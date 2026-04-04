@@ -28,7 +28,7 @@ public class Advertiser {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     
-    @Column(nullable = false,unique = true) @NotBlank(message = "Название не может быть пустым") private String name;
+    @Column(name = "name",nullable = false,unique = true) @NotBlank(message = "Название не может быть пустым") private String name;
     
     @OneToMany(mappedBy = "advertiser")
     private List<Announcement> announcements = new ArrayList<>();
