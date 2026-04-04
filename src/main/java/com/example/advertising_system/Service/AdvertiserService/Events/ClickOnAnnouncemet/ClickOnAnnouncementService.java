@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ClickOnAnnouncementService {
     private final AnnouncementRepo announcementRepo;
     private final ClientRepo clientRepo;
-
+    
 
     @Transactional
     public void ClickOnAnnouncement(String client_id, Long id_announcement){

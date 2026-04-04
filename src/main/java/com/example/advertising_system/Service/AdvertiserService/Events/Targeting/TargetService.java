@@ -19,11 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TargetService {
 
-    private final TargetRepo AntargetRepo;
+    private final TargetRepo targetRepo;
     private final AnnouncementRepo announcementRepo;
-    private
-     final TargetMapper targetMapper;
-
+    private final TargetMapper targetMapper;
     @Transactional
     public TargetResponseCreate addTargetForAnnouncement(TargetRequestCreate targetRequestCreate){
         Announcement announcement = announcementRepo.findById(targetRequestCreate.getId()).orElseThrow(
@@ -46,9 +44,12 @@ public class TargetService {
         AnnewTarget.setLocation(targetRequestCreate.getLocation());
         AnnewTarget.setAnnouncement(announcement);
         
-        AnTarget saved = AntargetRepo.save(AnnewTarget);
+        AnTarget saved = targetRepo.save(AnnewTarget);
 
         return targetMapper.toResponse(saved);
 
     }
+
+
+    
 }
