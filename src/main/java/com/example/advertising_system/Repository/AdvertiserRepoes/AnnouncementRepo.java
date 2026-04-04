@@ -8,5 +8,4 @@ import com.example.advertising_system.Entity.AdvertEntities.Announcement;
 @Repository
 public interface AnnouncementRepo extends JpaRepository<Announcement, Long>{
     
-    
 } 

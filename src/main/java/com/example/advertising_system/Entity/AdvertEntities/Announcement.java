@@ -2,6 +2,9 @@ package com.example.advertising_system.Entity.AdvertEntities;
 
 import java.time.LocalDate;
 
+import com.example.advertising_system.Entity.AdvertEntities.Target.AnTarget;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -58,6 +62,9 @@ public class Announcement {
 
     @Column(nullable = false, updatable = false)
     private LocalDate endDate;          // дата окончания
+
+    @OneToOne(mappedBy = "announcement", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    private AnTarget antarget;
 
     // === Дополнительная логика ===
 

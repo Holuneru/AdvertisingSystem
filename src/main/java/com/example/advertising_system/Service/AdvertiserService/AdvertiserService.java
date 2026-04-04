@@ -10,6 +10,7 @@ import com.example.advertising_system.DTO.AdvertiserDto.Get_Info.AdvertiserWithA
 import com.example.advertising_system.Entity.AdvertEntities.Advertiser;
 import com.example.advertising_system.Mappers.AdvertiserMapper.AdvertiserMapper;
 import com.example.advertising_system.Repository.AdvertiserRepoes.AdvertiserRepo;
+import com.example.advertising_system.Repository.AdvertiserRepoes.AnnouncementRepo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdvertiserService {
     private final AdvertiserRepo advertiserRepo;
     private final AdvertiserMapper advertiserMapper;
-
+    private final AnnouncementRepo announcementRepo;
     @Transactional
     public AdvertiserPostCreateResponse createAdvertiser(AdvertiserCreateDto advertiserCreateDto){
         if (advertiserCreateDto.getName() == null || advertiserCreateDto.getName().isBlank()) {
@@ -39,11 +40,12 @@ public class AdvertiserService {
         return advertiserMapper.toWithAnnouncementsDto(advertiser);
     }
 
-    public void deleteAdvertiser(String uuID){
-        Advertiser advertiser = advertiserRepo.findById(uuID).orElseThrow(
-            ()-> new RuntimeException("Advertiser undefinde"));
-        advertiserRepo.delete(advertiser);
-        log.info("Удалено");
-    }
+    @Transactional
+    public void deleteAdvertiser(String id) {
+        Advertiser advertiser = advertiserRepo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Advertiser not found"));
 
+        announcementRepo.deleteAll(advertiser.getAnnouncements()); // удаляем все объявления
+        advertiserRepo.delete(advertiser);
+    }
 }

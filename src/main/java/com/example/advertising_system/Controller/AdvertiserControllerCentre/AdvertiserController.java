@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -24,15 +25,18 @@ public class AdvertiserController {
     private final AdvertiserService advertiserService;
 
     @PostMapping(path = "/create")
-    public AdvertiserPostCreateResponse createAdveriser(@Valid @RequestBody AdvertiserCreateDto advertiserCreateDto ) {
-        //TODO: process POST request
-        
+    public AdvertiserPostCreateResponse createAdveriser(@Valid @RequestBody AdvertiserCreateDto advertiserCreateDto ) {        
         return advertiserService.createAdvertiser(advertiserCreateDto);
     }
 
-    @GetMapping(path = "/{id}/announcements")
-    public AdvertiserWithAnnouncementsDto getAnnouncementsAdverter(@PathVariable String id) {
-        return advertiserService.getAnnouncements(id);
+    @GetMapping(path = "/{name}/announcements")
+    public AdvertiserWithAnnouncementsDto getAnnouncementsAdverter(@PathVariable String name) {
+        return advertiserService.getAnnouncements(name);
+    }
+
+    @DeleteMapping(path = "/del/{id}")
+    public void deleteCompany(@PathVariable String id){
+        advertiserService.deleteAdvertiser(id);
     }
     
     

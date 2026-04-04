@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.advertising_system.Repository.ClientRepoes.ClickOnAnnouncementService;
+import com.example.advertising_system.Service.AdvertiserService.Events.ClickOnAnnouncemet.ClickOnAnnouncementService;
 
 import lombok.RequiredArgsConstructor;
 

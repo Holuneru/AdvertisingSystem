@@ -1,4 +1,4 @@
-package com.example.advertising_system.Repository.ClientRepoes;
+package com.example.advertising_system.Service.AdvertiserService.Events.ClickOnAnnouncemet;
 
 import java.util.Optional;
 
@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.advertising_system.Entity.AdvertEntities.Announcement;
 import com.example.advertising_system.Entity.ClientEntities.Client;
 import com.example.advertising_system.Repository.AdvertiserRepoes.AnnouncementRepo;
+import com.example.advertising_system.Repository.ClientRepoes.ClientRepo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
