@@ -35,11 +35,11 @@ public class Announcement {
 
     // === Неизменяемые поля (устанавливаются при создании) ===
 
-    @Column(nullable = false, updatable = false)
-    private int impressions;   // запланированное количество показов (лимит)
+    @Column(nullable = false)
+    private int impressions;   
 
-    @Column(nullable = false, updatable = false)
-    private int clicks;        // запланированное количество переходов (лимит)
+    @Column(nullable = false)
+    private int clicks;       
 
     @Column(nullable = false, updatable = false)
     private double costPerImpression;   // цена за 1 показ
