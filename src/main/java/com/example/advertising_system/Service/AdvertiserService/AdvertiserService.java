@@ -1,6 +1,8 @@
 package com.example.advertising_system.Service.AdvertiserService;
 
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.advertising_system.DTO.AdvertiserDto.Create.Request.AdvertiserCreateDto;
 import com.example.advertising_system.DTO.AdvertiserDto.Create.Response.AdvertiserPostCreateResponse;
@@ -19,6 +21,7 @@ public class AdvertiserService {
     private final AdvertiserRepo advertiserRepo;
     private final AdvertiserMapper advertiserMapper;
 
+    @Transactional
     public AdvertiserPostCreateResponse createAdvertiser(AdvertiserCreateDto advertiserCreateDto){
         if (advertiserCreateDto.getName() == null || advertiserCreateDto.getName().isBlank()) {
             throw new RuntimeException("Name Invalide");
@@ -30,10 +33,17 @@ public class AdvertiserService {
         return advertiserMapper.toDto(saved);
     }
 
-    public AdvertiserWithAnnouncementsDto getAnnouncements(String id){
-        Advertiser advertiser = advertiserRepo.findWithAnnouncements(id).orElseThrow(
+    public AdvertiserWithAnnouncementsDto getAnnouncements(String name){
+        Advertiser advertiser = advertiserRepo.findWithAnnouncements(name).orElseThrow(
             () -> new RuntimeException("Advertiser undefinde"));
         return advertiserMapper.toWithAnnouncementsDto(advertiser);
+    }
+
+    public void deleteAdvertiser(String uuID){
+        Advertiser advertiser = advertiserRepo.findById(uuID).orElseThrow(
+            ()-> new RuntimeException("Advertiser undefinde"));
+        advertiserRepo.delete(advertiser);
+        log.info("Удалено");
     }
 
 }

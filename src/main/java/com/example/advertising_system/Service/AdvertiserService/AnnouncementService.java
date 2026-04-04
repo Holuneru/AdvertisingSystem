@@ -24,7 +24,7 @@ public class AnnouncementService {
     private final AnnouncementMapper announcementMapper;
 
     public AnnouncementCreateResponse createAnouncement(AnnouncementCreateRequest announcementCreateRequest){
-        Advertiser advertiser = advertiserRepo.findById(announcementCreateRequest.getId()).orElseThrow(()-> new RuntimeException("Advertiser undefinde"));
+        Advertiser advertiser = advertiserRepo.findByName(announcementCreateRequest.getName()).orElseThrow(()-> new RuntimeException("Advertiser undefinde"));
 
         Announcement announcement = new Announcement();
 

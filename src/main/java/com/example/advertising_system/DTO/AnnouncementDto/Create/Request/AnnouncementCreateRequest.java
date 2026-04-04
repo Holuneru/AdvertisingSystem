@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class AnnouncementCreateRequest {
 
     
-    private String id;
+    private String name;
 
     // === Неизменяемые поля (устанавливаются при создании) ===
 
