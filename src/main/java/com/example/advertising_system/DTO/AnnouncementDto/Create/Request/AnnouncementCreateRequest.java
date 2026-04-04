@@ -17,9 +17,6 @@ public class AnnouncementCreateRequest {
     // === Неизменяемые поля (устанавливаются при создании) ===
 
     @Positive
-    private double costPerImpression;   // цена за 1 показ
-
-    @Positive
     private double costPerClick;        // цена за 1 переход
 
     @NotBlank

@@ -33,7 +33,7 @@ public class AnnouncementService {
         announcement.setClicks(0);
         announcement.setCostPerClick(announcementCreateRequest.getCostPerClick());
         announcement.setTitle(announcementCreateRequest.getTitle());
-        announcement.setText(announcement.getText());
+        announcement.setText(announcementCreateRequest.getText());
         announcement.setStartDate(LocalDate.now());
         announcement.setEndDate(LocalDate.now().plusDays(1));
         Announcement saved = announcementRepo.save(announcement);
