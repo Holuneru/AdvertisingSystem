@@ -29,8 +29,15 @@ public class ClickOnAnnouncementService {
                 ()-> new RuntimeException("Announcement not found")
         );
 
+        if (!announcement.isActive()){
+            throw new RuntimeException("Announcement ended on "+announcement.getEndDate());
+        }
+
         if (mlScoreService.DetectClickTheFirst(announcement.getAdvertiser(), client)){
             mlScoreService.theFirstClickOnAnnouncement(announcement.getAdvertiser(),client);
+            announcement.setClicks(announcement.getClicks()+1);
+            announcementRepo.save(announcement);
+            log.info("Click add");
         }else {
             throw new RuntimeException("Clicked yet");
         }
