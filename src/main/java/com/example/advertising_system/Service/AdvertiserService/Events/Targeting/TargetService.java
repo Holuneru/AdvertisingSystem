@@ -7,6 +7,7 @@ import com.example.advertising_system.DTO.TargetDto.Create.Request.TargetRequest
 import com.example.advertising_system.DTO.TargetDto.Create.Response.TargetResponseCreate;
 import com.example.advertising_system.Entity.AdvertEntities.Announcement;
 import com.example.advertising_system.Entity.AdvertEntities.Target.AnTarget;
+import com.example.advertising_system.Entity.ClientEntities.Client;
 import com.example.advertising_system.Mappers.TargetMapper.TargetMapper;
 import com.example.advertising_system.Repository.AdvertiserRepoes.AnnouncementRepo;
 import com.example.advertising_system.Repository.Target.TargetRepo;
@@ -48,6 +49,20 @@ public class TargetService {
 
         return targetMapper.toResponse(saved);
 
+    }
+
+    public boolean checkTargetParam(Client client, AnTarget anTarget){
+        if (anTarget == null) return true; // нет ограничений – подходит
+        if (client.getAge()<anTarget.getAgeFrom()|| client.getAge()>anTarget.getAgeTo()) {
+            return false;
+        }
+        if (client.getGender()!= anTarget.getGender()) {
+            return false;
+        }
+        if (!client.getLocation().equals(anTarget.getLocation())) {
+            return false;
+        }
+        return true;
     }
 
 
