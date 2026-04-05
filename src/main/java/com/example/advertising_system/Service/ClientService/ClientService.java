@@ -29,4 +29,12 @@ public class ClientService {
         log.info("Client account created: "+saved.getId()+" "+ saved.getLogin());
         return clientMapper.toDto(saved);
     }
+
+    public ClientCreateResponseDto getClientById(String id){
+        Client client = clientRepo.findById(id).orElseThrow(
+                () -> new RuntimeException("Client not found")
+        );
+        return clientMapper.toDto(client);
+    }
+
 }

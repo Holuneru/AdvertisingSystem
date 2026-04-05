@@ -29,6 +29,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Announcement {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -51,10 +52,10 @@ public class Announcement {
     @Column(nullable = false, updatable = false)
     private double costPerClick;        // цена за 1 переход
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = true)
     private String title;               // название объявления
 
-    @Column(nullable = false, updatable = false, length = 2000)
+    @Column(nullable = false, updatable = true, length = 2000)
     private String text;                // текст объявления
 
     @Column(nullable = false, updatable = false)

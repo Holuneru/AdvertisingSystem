@@ -28,6 +28,10 @@ public class AdvertiserController {
     public AdvertiserPostCreateResponse createAdveriser(@Valid @RequestBody AdvertiserCreateDto advertiserCreateDto ) {        
         return advertiserService.createAdvertiser(advertiserCreateDto);
     }
+    @GetMapping(path = "/id/{id}")
+    public AdvertiserPostCreateResponse getById(@PathVariable(name = "id") String id){
+        return advertiserService.getAdvertiserById(id);
+    }
 
     @GetMapping(path = "/{name}/announcements")
     public AdvertiserWithAnnouncementsDto getAnnouncementsAdverter(@PathVariable String name) {

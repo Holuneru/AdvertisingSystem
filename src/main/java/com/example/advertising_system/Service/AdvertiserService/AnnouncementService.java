@@ -1,7 +1,10 @@
 package com.example.advertising_system.Service.AdvertiserService;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
+import com.example.advertising_system.DTO.AnnouncementDto.GetInfo.Response.AnnouncementResponseInfo;
+import com.example.advertising_system.DTO.AnnouncementDto.UpdateDto.AnnouncementUpdateDto;
 import org.springframework.stereotype.Service;
 
 import com.example.advertising_system.DTO.AnnouncementDto.Create.Request.AnnouncementCreateRequest;
@@ -14,6 +17,7 @@ import com.example.advertising_system.Repository.AdvertiserRepoes.AnnouncementRe
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +41,31 @@ public class AnnouncementService {
         announcement.setStartDate(LocalDate.now());
         announcement.setEndDate(LocalDate.now().plusDays(1));
         Announcement saved = announcementRepo.save(announcement);
-        log.info("announcement created "+ saved.getId());
+        log.info("announcement created {}", saved.getId());
         return announcementMapper.toResponse(saved);
     }
 
+    public AnnouncementResponseInfo getByIdOne(Long id) {
+        Announcement announcementOptional = announcementRepo.findById(id).orElseThrow(
+                () -> new RuntimeException("NOT FOUND Announcement")
+        );
+        return announcementMapper.toInfo(announcementOptional);
+    }
+
+    @Transactional
+    public AnnouncementResponseInfo updateAnnouncementINFO(Long id, AnnouncementUpdateDto announcementUpdateDto) {
+        Announcement announcement = announcementRepo.findById(id).orElseThrow(
+                () -> new RuntimeException("Announcement not found")
+        );
+        if (announcementUpdateDto.getTitle()!=null&&!announcementUpdateDto.getTitle().isBlank() && !Objects.equals(announcementUpdateDto.getTitle(),announcement.getTitle())){
+            announcement.setTitle(announcementUpdateDto.getTitle());
+            log.info("Title updated: {}", announcementUpdateDto.getTitle());
+        }
+        if (announcementUpdateDto.getText()!=null&& !announcementUpdateDto.getText().isBlank() && !Objects.equals(announcementUpdateDto.getText(),announcement.getText())){
+            announcement.setText(announcementUpdateDto.getText());
+            log.info("Text updated: {}", announcementUpdateDto.getText());
+        }
+        Announcement saved = announcementRepo.save(announcement);
+        return announcementMapper.toInfo(saved);
+    }
 }

@@ -22,6 +22,14 @@ public class AdvertiserService {
     private final AdvertiserRepo advertiserRepo;
     private final AdvertiserMapper advertiserMapper;
     private final AnnouncementRepo announcementRepo;
+
+    public AdvertiserPostCreateResponse getAdvertiserById(String id){
+        Advertiser advertiser = advertiserRepo.findById(id).orElseThrow(
+                () -> new RuntimeException("Advertiser not found")
+        );
+        return advertiserMapper.toDto(advertiser);
+    }
+
     @Transactional
     public AdvertiserPostCreateResponse createAdvertiser(AdvertiserCreateDto advertiserCreateDto){
         if (advertiserCreateDto.getName() == null || advertiserCreateDto.getName().isBlank()) {
