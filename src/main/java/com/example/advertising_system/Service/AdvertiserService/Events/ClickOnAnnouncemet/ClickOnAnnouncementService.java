@@ -1,7 +1,6 @@
 package com.example.advertising_system.Service.AdvertiserService.Events.ClickOnAnnouncemet;
 
-import java.util.Optional;
-
+import com.example.advertising_system.Service.MlScroreService.MLScoreService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,18 +18,23 @@ import lombok.extern.slf4j.Slf4j;
 public class ClickOnAnnouncementService {
     private final AnnouncementRepo announcementRepo;
     private final ClientRepo clientRepo;
-    
+    private final MLScoreService mlScoreService;
 
     @Transactional
     public void ClickOnAnnouncement(String client_id, Long id_announcement){
-        Optional<Client> clientOptional = clientRepo.findById(client_id);
-        if (clientOptional.isEmpty()) {
-            throw new RuntimeException("Client not founde");
+        Client client = clientRepo.findById(client_id).orElseThrow(
+                () -> new RuntimeException("Client not founde")
+        );
+        Announcement announcement = announcementRepo.findById(id_announcement).orElseThrow(
+                ()-> new RuntimeException("Announcement not found")
+        );
+
+        if (mlScoreService.DetectClickTheFirst(announcement.getAdvertiser(), client)){
+            mlScoreService.theFirstClickOnAnnouncement(announcement.getAdvertiser(),client);
+        }else {
+            throw new RuntimeException("Clicked yet");
         }
-        Announcement announcement = announcementRepo.findById(id_announcement).orElseThrow();
-        announcement.setClicks(announcement.getClicks()+1);;
-        log.info("Переход засчитан");
-        announcementRepo.save(announcement);
+
     }
     
 }
