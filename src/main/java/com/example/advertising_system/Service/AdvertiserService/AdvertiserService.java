@@ -30,7 +30,7 @@ public class AdvertiserService {
         Advertiser advertiser = new Advertiser();
         advertiser.setName(advertiserCreateDto.getName());
         Advertiser saved = advertiserRepo.save(advertiser);
-        log.info("Рекламодатель сохранен под UUID: "+ saved.getId());
+        log.info("Рекламодатель сохранен под UUID: {}", saved.getId());
         return advertiserMapper.toDto(saved);
     }
 

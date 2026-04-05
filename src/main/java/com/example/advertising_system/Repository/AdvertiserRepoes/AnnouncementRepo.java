@@ -12,5 +12,5 @@ import com.example.advertising_system.Entity.AdvertEntities.Announcement;
 @Repository
 public interface AnnouncementRepo extends JpaRepository<Announcement, Long>{
     @Query("select a from Announcement a left join fetch a.antarget where a.id = :id")
-    Optional<Announcement> findWithTarget(@Param("id") Integer id);
+    Optional<Announcement> findWithTarget(@Param("id") Long id);
 } 
