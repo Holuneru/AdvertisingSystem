@@ -34,7 +34,13 @@ public class MLScoreService {
         MLScore targetScore = findClientWithScores.getMlScore().stream()
                 .filter(score -> score.getAdvertiser().getId().equals(advertiser.getId()))
                 .findFirst()
-                .orElse(null);
+                .orElse(null);  //МЕТОД НЕ ВЕРНЫй. Он не даст повторного клика если пользователь уже кликал на
+                                //Рекламы данного рекламодателя
+                                //Надо добавить Сущность ClickedClient и сделать Join к Announcement
+                                //Тогда мы будем проверять idслиента в Сджоиненной сущности ClickedClient
+                                //Если id не обнаружен то нам вернет False и мы сможем обработать это
+                                //Через Optinal
+                                //Пример: Optinal<ClickedClient> optinalClickedClient = clickedClientRepo.findByClientId(client_id);
 
         if(targetScore == null) {
             log.info("The first Click");
