@@ -19,7 +19,7 @@ public class ClickOnAnnouncementService {
     private final AnnouncementRepo announcementRepo;
     private final ClientRepo clientRepo;
     private final MLScoreService mlScoreService;
-
+    private final ClickedClientService clickedClientService;
     @Transactional
     public void ClickOnAnnouncement(String client_id, Long id_announcement){
         Client client = clientRepo.findById(client_id).orElseThrow(
@@ -29,12 +29,13 @@ public class ClickOnAnnouncementService {
                 ()-> new RuntimeException("Announcement not found")
         );
 
-        if (!announcement.isActive()){
+        if (!announcement.isActive()){ 
             throw new RuntimeException("Announcement ended on "+announcement.getEndDate());
         }
 
         if (mlScoreService.DetectClickTheFirst(announcement.getAdvertiser(), client)){
             mlScoreService.theFirstClickOnAnnouncement(announcement.getAdvertiser(),client);
+            clickedClientService.createClickedClientEntity(client, announcement);
             announcement.setClicks(announcement.getClicks()+1);
             announcementRepo.save(announcement);
             log.info("Click add");

@@ -67,6 +67,9 @@ public class Announcement {
     @OneToOne(mappedBy = "announcement", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
     private AnTarget antarget;
 
+    @OneToMany(mappedBy = "announcement", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ClickedClient> clickedClients;
+
     // === Дополнительная логика ===
 
     // Конструктор для создания нового объявления (с проверкой дат)
