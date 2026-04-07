@@ -1,13 +1,25 @@
 package com.example.advertising_system.Entity.AdvertEntities;
 
+import java.time.LocalDate;
+
 import com.example.advertising_system.Entity.AdvertEntities.Target.AnTarget;
-import jakarta.persistence.*;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "announcements")
@@ -40,10 +52,10 @@ public class Announcement {
     @Column(nullable = false, updatable = false)
     private double costPerClick;        // цена за 1 переход
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = true)
     private String title;               // название объявления
 
-    @Column(nullable = false, length = 2000)
+    @Column(nullable = false, updatable = true, length = 2000)
     private String text;                // текст объявления
 
     @Column(nullable = false, updatable = false)
@@ -52,10 +64,8 @@ public class Announcement {
     @Column(nullable = false, updatable = false)
     private LocalDate endDate;          // дата окончания
 
-    @OneToOne(mappedBy = "announcement", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "announcement", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
     private AnTarget antarget;
-
-
 
     // === Дополнительная логика ===
 

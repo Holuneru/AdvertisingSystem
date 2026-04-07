@@ -1,6 +1,5 @@
 package com.example.advertising_system.Service.AdvertiserService.Events.ClickOnAnnouncemet;
 
-import com.example.advertising_system.Service.AdvertiserService.ClickedClientService;
 import com.example.advertising_system.Service.MlScroreService.MLScoreService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,31 +19,28 @@ public class ClickOnAnnouncementService {
     private final AnnouncementRepo announcementRepo;
     private final ClientRepo clientRepo;
     private final MLScoreService mlScoreService;
-    private final ClickedClientService clickedClientService;
+
     @Transactional
     public void ClickOnAnnouncement(String client_id, Long id_announcement){
         Client client = clientRepo.findById(client_id).orElseThrow(
-                () -> new RuntimeException("Client not found")
+                () -> new RuntimeException("Client not founde")
         );
         Announcement announcement = announcementRepo.findById(id_announcement).orElseThrow(
                 ()-> new RuntimeException("Announcement not found")
         );
 
-        if (!announcement.isActive()){ 
+        if (!announcement.isActive()){
             throw new RuntimeException("Announcement ended on "+announcement.getEndDate());
         }
 
-        if (mlScoreService.DetectClickTheFirst(client_id, id_announcement)){
+        if (mlScoreService.DetectClickTheFirst(announcement.getAdvertiser(), client)){
             mlScoreService.theFirstClickOnAnnouncement(announcement.getAdvertiser(),client);
-            clickedClientService.createClickedClientEntity(client_id, id_announcement);
             announcement.setClicks(announcement.getClicks()+1);
             announcementRepo.save(announcement);
             log.info("Click add");
         }else {
             throw new RuntimeException("Clicked yet");
         }
-
-
 
     }
     
